@@ -3,7 +3,7 @@
 const ShopPage = () => {
  
   return (
-    <div>Hi Guys!!!!!</div>
+    <h1>Hi Guys!!!!!</h1>
   );
 };
 
