@@ -1,15 +1,14 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+import { authSlice } from "app/auth/store/auth.slice";
 
 
-const middlewareNoSerializableCheck = getDefaultMiddleware({
-  serializableCheck: false,
-});
+
 
 const store = configureStore({
   reducer: {
-
-  },
-  middleware: middlewareNoSerializableCheck,
+   
+    auth: authSlice.reducer,
+  }
 });
 
 export type RootState = ReturnType<typeof store.getState>;
