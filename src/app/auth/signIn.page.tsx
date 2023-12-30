@@ -126,14 +126,6 @@ const SignIn = () => {
                 ENTER
               </Button>
             </Box>
-            <Box sx={{ textAlign: "center" }}>
-
-              <NavLink
-                to="/sign-up"
-              >
-                REGISTRATION
-              </NavLink>
-            </Box>
           </form>
         </Grid>
       </Grid>

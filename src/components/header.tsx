@@ -13,7 +13,13 @@ import { useSelector } from 'react-redux';
 import { isAuthorizedSelector } from 'app/auth/store/auth.selectors';
 
 
-export default function Header({ pages }: { pages: string[] }) {
+export default function Header({
+  pages,
+  isAdmin,
+}: {
+  pages: string[];
+  isAdmin: boolean;
+}) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const authorized = useSelector(isAuthorizedSelector);
 
@@ -36,7 +42,6 @@ export default function Header({ pages }: { pages: string[] }) {
             href="/shop"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
@@ -99,11 +104,20 @@ export default function Header({ pages }: { pages: string[] }) {
                 </Menu>
               </>
             ) : (
-              <NavLink className="link" to="/sign-in" style={{ textDecoration: 'none' }}>
+              <><NavLink className="link" to="/sign-in" style={{ textDecoration: 'none' }}>
                 <Typography variant="h6" component="div" color="white">
                   Login
                 </Typography>
               </NavLink>
+                {!isAdmin && (<NavLink to="/sign-up" style={{ textDecoration: 'none', marginLeft: '5px' }}>
+                  <Typography variant="h6" component="div" color="white">
+                    Registration
+                  </Typography>
+
+                </NavLink>
+                )}
+              </>
+
             )}
           </Box>
 
@@ -131,11 +145,21 @@ export default function Header({ pages }: { pages: string[] }) {
                 ))}
               </>
             ) : (
-              <NavLink className="link" to="/sign-in" style={{ textDecoration: 'none' }} >
+              <><NavLink className="link" to="/sign-in" style={{ textDecoration: 'none' }}>
                 <Typography variant="h6" component="div" color="white">
                   Login
                 </Typography>
               </NavLink>
+                {!isAdmin && (<NavLink to="/sign-up" style={{ textDecoration: 'none', marginLeft: '5px' }}>
+                  <Typography variant="h6" component="div" color="white">
+                    Registration
+                  </Typography>
+
+                </NavLink>
+                )}
+              </>
+
+
             )}
           </Box>
         </Toolbar>
