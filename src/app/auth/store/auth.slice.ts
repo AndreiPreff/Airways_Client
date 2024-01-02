@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signIn, signOut, signUp } from 'app/auth/store/auth.actions';
+import { resetPassword, signIn, signOut, signUp } from 'app/auth/store/auth.actions';
 import { AuthState } from 'app/auth/types/auth-state';
 
 
@@ -9,11 +9,13 @@ const initialState: AuthState = {
     signIn: false,
     signUp: false,
     signOut: false,
+    resetPassword: false, 
   },
   errors: {
     signIn: null,
     signUp: null,
     signOut: null,
+    resetPassword: null,
   },
 };
 
@@ -66,6 +68,20 @@ export const authSlice = createSlice({
         (state, action: any & { payload: any }) => {
           state.pending.signOut = false;
           state.errors.signOut = action.payload.error.message;
+        }
+      )
+      .addCase(resetPassword.pending, (state) => {
+        state.pending.resetPassword = true;
+        state.errors.resetPassword = null;
+      })
+      .addCase(resetPassword.fulfilled, (state, { payload }) => {
+        state.pending.resetPassword = false;
+      })
+      .addCase(
+        resetPassword.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.resetPassword = false;
+          state.errors.resetPassword = action.payload.error;
         }
       );
   },

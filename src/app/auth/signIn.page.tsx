@@ -125,6 +125,14 @@ const SignIn = () => {
               >
                 ENTER
               </Button>
+              <Box sx={{ textAlign: "center" }}>
+
+              <NavLink
+                to="/reset-password"
+              >
+                Forgot password?
+              </NavLink>
+            </Box>
             </Box>
           </form>
         </Grid>

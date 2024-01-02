@@ -26,6 +26,7 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 const ShopPage = React.lazy(() => import('app/shop'));
 const SignInPage = React.lazy(() => import('app/auth/signIn.page'));
 const SignUpPage = React.lazy(() => import('app/auth/signUp.page'));
+const ResetPasswordPage = React.lazy(() => import("app/auth/resetPassword.page"));
 
 
 const AppRoutes = () => {
@@ -44,6 +45,7 @@ const AppRoutes = () => {
         path={'/sign-in/*'}
         element={<PublicRoute element={SignInPage} />}
       />
+      <Route path="/reset-password" element={<PublicRoute element={ResetPasswordPage} />} />
 
     
     
