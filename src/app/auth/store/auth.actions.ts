@@ -40,8 +40,9 @@ export const signOut = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await repository.post('/auth/logout');
+   
       sessionStorage.removeItem('accessToken');
-      console.log(1);
+      
       return response.data;
     } catch (error) {
       const errorMessage = (error as ErrorResponse)?.response?.data?.message || 'Произошла неизвестная ошибка';

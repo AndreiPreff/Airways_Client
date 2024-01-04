@@ -20,15 +20,16 @@ repository.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.status === 401 && originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
         const access_token = sessionStorage.getItem("accessToken");
-        const response = await repository.post("auth/refresh", {
-          refreshToken: access_token,
-        });
+        const headers = {
+          Authorization: `Bearer ${access_token}`,
+        };
+
+        const response = await repository.get("auth/refresh", { headers });
 
         sessionStorage.setItem("accessToken", response.data.access_token);
         originalRequest.headers.Authorization = `Bearer ${response.data.access_token}`;
@@ -42,5 +43,6 @@ repository.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 export default repository;
