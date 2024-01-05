@@ -10,12 +10,12 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element 
 };
 
 
-const ShopPage = React.lazy(() => import('app/shop/shop.page'));
+const FlightsPage = React.lazy(() => import('app/flights/flights.page'));
 
 const UsersRoutes: FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Suspended element={ShopPage} />} />
+      <Route path="/" element={<Suspended element={FlightsPage} />} />
     </Routes>
   );
 };

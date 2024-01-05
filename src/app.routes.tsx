@@ -23,7 +23,7 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 );
 
 
-const ShopPage = React.lazy(() => import('app/shop'));
+const FlightsPage = React.lazy(() => import('app/flights'));
 const SignInPage = React.lazy(() => import('app/auth/signIn.page'));
 const SignUpPage = React.lazy(() => import('app/auth/signUp.page'));
 const ResetPasswordPage = React.lazy(() => import("app/auth/resetPassword.page"));
@@ -36,7 +36,7 @@ const AppRoutes = () => {
   
 
       {/* PUBLIC */}
-      <Route path={'/shop/*'} element={<PublicRoute element={ShopPage} />} />
+      <Route path={'/flights/*'} element={<PublicRoute element={FlightsPage} />} />
       <Route
         path={'/sign-up/*'}
         element={<PublicRoute element={SignUpPage} />}
@@ -52,7 +52,7 @@ const AppRoutes = () => {
 
       {/* DEFAULT */}
 
-      <Route path="*" element={<Navigate to="/shop" />} />
+      <Route path="*" element={<Navigate to="/flights" />} />
     </Routes>
   );
 };
