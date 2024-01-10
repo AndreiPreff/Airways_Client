@@ -10,8 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import { Ticket } from './types/ticket-dto.type';
 import { OrderSelectedData } from './types/orderSelectedData-dto.type';
 
-
-
 const FlightChoicePage = () => {
     const dispatch = useDispatch();
     const availableTickets = useSelector(selectAvailableTickets);
@@ -34,7 +32,6 @@ const FlightChoicePage = () => {
                 });
             }
         };
-
         addTicketsToOrderData(selectedThereTicket);
         addTicketsToOrderData(selectedBackTicket);
         if (orderData.length > 0) dispatch<any>(orderTickets(orderData))
@@ -76,7 +73,6 @@ const FlightChoicePage = () => {
                             </Typography>
                         </Grid>
                     )}
-
                     {availableTickets.there.map((ticket, index) => (
                         <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
                             <TicketCard
@@ -85,7 +81,6 @@ const FlightChoicePage = () => {
                             />
                         </Grid>
                     ))}
-
                     {availableTickets.back.length > 0 && (
                         <Grid item xs={12}>
                             <Typography variant="h2" gutterBottom>
@@ -93,7 +88,6 @@ const FlightChoicePage = () => {
                             </Typography>
                         </Grid>
                     )}
-
                     {availableTickets.back.map((ticket, index) => (
                         <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
                             <TicketCard
@@ -115,7 +109,6 @@ const FlightChoicePage = () => {
                     </Typography>
                 </Grid>
             )}
-
             {selectedThereTicket && (
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <SelectedTicketCard
@@ -125,7 +118,6 @@ const FlightChoicePage = () => {
                     />
                 </Grid>
             )}
-
             {selectedBackTicket && (
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <SelectedTicketCard
@@ -135,7 +127,6 @@ const FlightChoicePage = () => {
                     />
                 </Grid>
             )}
-
             {(selectedThereTicket || selectedBackTicket) && (
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <Button onClick={handleOrderTicket} variant="contained" color="secondary">

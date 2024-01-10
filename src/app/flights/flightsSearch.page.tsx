@@ -74,12 +74,12 @@ const FlightsPage = () => {
       };
 
     dispatch<any>(fetchAvailableTickets(formData));
-    navigation("/flights/choise")
+    navigation("/flights/choice")
   };
 
 
   return (
-    <><Header pages={['Orders', 'History']} isAdmin={false} />
+    <>
       <Grid container height="80vh" justifyContent="center" alignItems="center">
         <Grid item xs={10} sm={10} md={8} lg={3} xl={3}>
           <Typography variant="h4" gutterBottom>

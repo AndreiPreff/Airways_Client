@@ -8,11 +8,13 @@ import { resetPassword } from 'app/auth/store/auth.actions';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { resetSchema } from "./validators/authSchemas";
 import { authResetPasswordErrorSelector } from './store/auth.selectors';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const ResetPasswordPage: React.FC = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -25,6 +27,7 @@ const ResetPasswordPage: React.FC = () => {
 
   const submitForm: SubmitHandler<FieldValues> = (data) => {
     dispatch<any>(resetPassword(data));
+    navigation("/auth/sign-in")
   };
 
   return (

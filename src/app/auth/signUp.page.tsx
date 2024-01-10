@@ -161,7 +161,7 @@ const SignUp = () => {
               </Button>
             </Box>
             <Box sx={{ textAlign: 'center' }}>
-              <NavLink className="login--sign-up__link" to="/sign-in">
+              <NavLink className="login--sign-up__link" to="/auth/sign-in">
                 LOGIN
               </NavLink>
             </Box>

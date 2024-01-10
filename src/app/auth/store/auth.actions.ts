@@ -21,7 +21,7 @@ export const signIn = createAsyncThunk(
 );
 
 export const signUp = createAsyncThunk(
-  "Post/auth/",
+  "POST/auth/",
   async (
     { email, password, first_name, last_name }: FieldValues,
     { rejectWithValue }

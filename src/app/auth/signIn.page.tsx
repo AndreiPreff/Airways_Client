@@ -17,7 +17,6 @@ import { signInSchema } from "./validators/authSchemas";
 const SignIn = () => {
   const navigation = useNavigate();
   const dispatch = useDispatch();
-
   const authError = useSelector(authSignInErrorSelector);
   const { control, handleSubmit, formState: { errors } } = useForm({
     mode: "all",
@@ -123,7 +122,7 @@ const SignIn = () => {
               <Box sx={{ textAlign: "center" }}>
 
                 <NavLink
-                  to="/reset-password"
+                  to="/auth/reset-password"
                 >
                   Forgot password?
                 </NavLink>

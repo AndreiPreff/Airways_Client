@@ -39,7 +39,7 @@ export default function Header({
 
   const handleSignOut = () => {
     dispatch<any>(signOut());
-    navigate('/shop');
+    navigate('/flights');
   };
 
   return (
@@ -50,7 +50,7 @@ export default function Header({
             variant="h6"
             noWrap
             component="a"
-            href="/shop"
+            href="/flights"
             sx={{
               mr: 2,
               fontFamily: 'monospace',
@@ -117,13 +117,13 @@ export default function Header({
               </>
             ) : (
               <>
-                <NavLink className="link" to="/sign-in" style={{ textDecoration: 'none' }}>
+                <NavLink className="link" to="/auth/sign-in" style={{ textDecoration: 'none' }}>
                   <Typography variant="h6" component="div" color="white" sx={{ marginLeft: '5px' }}>
                     Login
                   </Typography>
                 </NavLink>
                 {!isAdmin && (
-                  <NavLink to="/sign-up" style={{ textDecoration: 'none', marginLeft: '5px' }}>
+                  <NavLink to="/auth/sign-up" style={{ textDecoration: 'none', marginLeft: '5px' }}>
                     <Typography variant="h6" component="div" color="white">
                       Registration
                     </Typography>

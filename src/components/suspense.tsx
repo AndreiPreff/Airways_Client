@@ -1,7 +1,21 @@
+import { Box, CircularProgress } from "@mui/material";
+
 const SuspenseComponent = () => {
-    return (
-     <div>!</div>
-    );
-  };
-  
-  export default SuspenseComponent;
+  return (
+    <Box
+      sx={{
+        margin: "0 auto",
+        display: "flex",
+        width: "100%",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#FFF",
+      }}
+    >
+      <CircularProgress size={100} color="info" />
+    </Box>
+  );
+};
+
+export default SuspenseComponent;
