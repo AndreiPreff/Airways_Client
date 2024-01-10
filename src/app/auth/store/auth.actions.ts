@@ -53,9 +53,7 @@ export const signOut = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      const errorMessage =
-        (error as ErrorResponse)?.response?.data?.message ||
-        "Произошла неизвестная ошибка";
+      const errorMessage = (error as ErrorResponse)?.response?.data.message;
 
       return rejectWithValue({ error: errorMessage });
     }

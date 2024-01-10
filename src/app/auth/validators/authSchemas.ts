@@ -9,6 +9,7 @@ export const signUpSchema = yup.object().shape({
     .required("Required field")
     .min(8, "Min 8 symbols")
     .matches(/^[0-9a-zA-Z]{5,}$/, "Password incorrect"),
+  confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
 export const signInSchema = yup.object().shape({
