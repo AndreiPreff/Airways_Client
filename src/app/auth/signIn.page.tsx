@@ -17,7 +17,7 @@ import { signInSchema } from "./validators/authSchemas";
 const SignIn = () => {
   const navigation = useNavigate();
   const dispatch = useDispatch();
-  
+
   const authError = useSelector(authSignInErrorSelector);
   const { control, handleSubmit, formState: { errors } } = useForm({
     mode: "all",
@@ -27,17 +27,12 @@ const SignIn = () => {
 
   const signInUser = async (values: FieldValues) => {
     const response = await dispatch<any>(signIn(values));
-    console.log(response)
     if (response.meta.requestStatus === 'fulfilled') navigation("/user");
   };
-
 
   const submitForm: SubmitHandler<FieldValues> = (data) => {
     signInUser(data);
   };
-
-
-
 
   return (
     <>
@@ -127,12 +122,12 @@ const SignIn = () => {
               </Button>
               <Box sx={{ textAlign: "center" }}>
 
-              <NavLink
-                to="/reset-password"
-              >
-                Forgot password?
-              </NavLink>
-            </Box>
+                <NavLink
+                  to="/reset-password"
+                >
+                  Forgot password?
+                </NavLink>
+              </Box>
             </Box>
           </form>
         </Grid>

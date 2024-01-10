@@ -44,5 +44,4 @@ repository.interceptors.response.use(
   }
 );
 
-
 export default repository;

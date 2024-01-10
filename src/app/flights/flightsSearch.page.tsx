@@ -12,15 +12,15 @@ import {
   Grid,
   Typography,
   SelectChangeEvent,
-  FormHelperText,
 } from '@mui/material';
-import { useDispatch, useSelector } from "react-redux";
-import { selectAvailableTickets } from "./store/flights.selectors";
+import { useDispatch } from "react-redux";
 import { fetchAvailableTickets } from "./store/flights.actions";
-
+import { useNavigate } from "react-router-dom";
+import { selectPassengerCount } from "./store/flights.slice";
 
 
 const FlightsPage = () => {
+  const navigation = useNavigate();
   const [departureCity, setDepartureCity] = useState('');
   const [arrivalCity, setArrivalCity] = useState('');
   const [departureDate, setDepartureDate] = useState('');
@@ -30,8 +30,7 @@ const FlightsPage = () => {
   const [transfers, setTransfers] = useState(0);
   const cities = ['Minsk', 'Warsaw', 'Moscow', 'Kyiv', 'Prague', 'Amsterdam', 'London', 'Paris', 'Madrid', 'Milan', 'Istanbul', 'Vienna'];
   const dispatch = useDispatch();
-  const availableTickets = useSelector(selectAvailableTickets);
-  console.log(availableTickets);
+
 
   const handleDepartureCityChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setDepartureCity(event.target.value);
@@ -51,6 +50,7 @@ const FlightsPage = () => {
 
   const handlePassengerCountChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setPassengerCount(event.target.value);
+    dispatch<any>(selectPassengerCount(event.target.value));
   };
 
   const handleRoundTripChange = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
@@ -74,6 +74,7 @@ const FlightsPage = () => {
       };
 
     dispatch<any>(fetchAvailableTickets(formData));
+    navigation("/flights/choise")
   };
 
 
