@@ -1,11 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Typography, Button, InputLabel, Select, MenuItem } from '@mui/material';
 import { selectTicket } from './store/flights.slice';
-import { selectAvailableTickets, selectFlightsPassengerCount, selectSelectedBackTicket, selectSelectedThereTicket } from './store/flights.selectors';
+import { selectAvailableTickets, selectFlightsPassengerCount, selectSelectedBackTicket, selectSelectedThereTicket, selectFlightsError } from './store/flights.selectors';
 import { orderTickets } from './store/flights.actions';
 import { SetStateAction, useState } from 'react';
 import TicketCard from './components/ticketCard';
 import SelectedTicketCard from './components/selectedTicketCard';
+import { useNavigate } from 'react-router-dom';
+import { Ticket } from './types/ticket-dto.type';
+import { OrderSelectedData } from './types/orderSelectedData-dto.type';
 
 
 
@@ -15,43 +18,33 @@ const FlightChoicePage = () => {
     const selectedThereTicket = useSelector(selectSelectedThereTicket);
     const selectedBackTicket = useSelector(selectSelectedBackTicket);
     const selectedFlightsPassengerCount = useSelector(selectFlightsPassengerCount);
+    const navigation = useNavigate();
+    const selectedFlightsError = useSelector(selectFlightsError);
+    const [sortType, setSortType] = useState('price');
 
     const handleOrderTicket = () => {
-        const orderData: { amount: number | null; flightId: string; }[] = [];
-
-        if (selectedThereTicket) {
-            selectedThereTicket.forEach(ticket => {
-                orderData.push({
-                    amount: Number(selectedFlightsPassengerCount),
-                    flightId: ticket.id,
+        const orderData: OrderSelectedData[] = [];
+        const addTicketsToOrderData = (tickets: Ticket[] | null) => {
+            if (tickets) {
+                tickets.forEach((ticket: Ticket) => {
+                    orderData.push({
+                        amount: Number(selectedFlightsPassengerCount),
+                        flightId: ticket.id,
+                    });
                 });
-            });
-        }
+            }
+        };
 
-        if (selectedBackTicket) {
-            selectedBackTicket.forEach(ticket => {
-                orderData.push({
-                    amount: Number(selectedFlightsPassengerCount),
-                    flightId: ticket.id,
-                });
-            });
-        }
-        if (orderData.length > 0) dispatch<any>(orderTickets(orderData));
+        addTicketsToOrderData(selectedThereTicket);
+        addTicketsToOrderData(selectedBackTicket);
+        if (orderData.length > 0) dispatch<any>(orderTickets(orderData))
+        if (selectedFlightsError === "Unauthorized") navigation('/sign-in');
+
     };
-
-
-
-    const orderButton = (
-        <Button onClick={handleOrderTicket} variant="contained" color="secondary">
-            Order
-        </Button>
-    );
 
     const onDeselectTicket = (ticketType: string) => {
         dispatch(selectTicket({ ticketType, ticket: null }));
-    };
-
-    const [sortType, setSortType] = useState('price');
+    };;
 
     const handleSortChange = (event: { target: { value: SetStateAction<string>; }; }) => {
         setSortType(event.target.value);
@@ -145,7 +138,9 @@ const FlightChoicePage = () => {
 
             {(selectedThereTicket || selectedBackTicket) && (
                 <Grid item xs={12} sm={6} md={4} lg={3}>
-                    {orderButton}
+                    <Button onClick={handleOrderTicket} variant="contained" color="secondary">
+                        Order
+                    </Button>
                 </Grid>
             )}
         </Grid>
