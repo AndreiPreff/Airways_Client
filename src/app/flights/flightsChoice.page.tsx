@@ -35,7 +35,7 @@ const FlightChoicePage = () => {
         addTicketsToOrderData(selectedThereTicket);
         addTicketsToOrderData(selectedBackTicket);
         if (orderData.length > 0) dispatch<any>(orderTickets(orderData))
-        if (selectedFlightsError === "Unauthorized") navigation('/sign-in');
+        if (selectedFlightsError === "Unauthorized") navigation('/auth/sign-in');
 
     };
 
