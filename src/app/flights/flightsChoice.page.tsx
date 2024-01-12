@@ -3,7 +3,7 @@ import { Grid, Typography, Button, InputLabel, Select, MenuItem } from '@mui/mat
 import { selectTicket } from './store/flights.slice';
 import { selectAvailableTickets, selectFlightsPassengerCount, selectSelectedBackTicket, selectSelectedThereTicket, selectFlightsError } from './store/flights.selectors';
 import { orderTickets } from './store/flights.actions';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import TicketCard from './components/ticketCard';
 import SelectedTicketCard from './components/selectedTicketCard';
 import { useNavigate } from 'react-router-dom';
@@ -19,8 +19,13 @@ const FlightChoicePage = () => {
     const navigation = useNavigate();
     const selectedFlightsError = useSelector(selectFlightsError);
     const [sortType, setSortType] = useState('price');
+   
+   
+    useEffect(() => {
+        if (selectedFlightsError === "Unauthorized") navigation('/auth/sign-in');
+      }, [selectedFlightsError, navigation]);
 
-    const handleOrderTicket = () => {
+    const handleOrderTicket =  () => {
         const orderData: OrderSelectedData[] = [];
         const addTicketsToOrderData = (tickets: Ticket[] | null) => {
             if (tickets) {
@@ -34,8 +39,8 @@ const FlightChoicePage = () => {
         };
         addTicketsToOrderData(selectedThereTicket);
         addTicketsToOrderData(selectedBackTicket);
-        if (orderData.length > 0) dispatch<any>(orderTickets(orderData))
-        if (selectedFlightsError === "Unauthorized") navigation('/auth/sign-in');
+        if (orderData.length > 0)  dispatch<any>(orderTickets(orderData))
+        
 
     };
 

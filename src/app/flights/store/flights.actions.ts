@@ -22,7 +22,6 @@ export const orderTickets = createAsyncThunk(
   async (orderData:OrderDataItem[], { rejectWithValue }) => {
     try {
       const response = await repository.post('/tickets', orderData);
-      console.log(response.data)
       return response.data;
     } catch (error) {
       const errorMessage = (error as ErrorResponse)?.response?.data.message;
