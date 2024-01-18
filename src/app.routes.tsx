@@ -25,6 +25,7 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 
 const FlightsPage = React.lazy(() => import('app/flights'));
 const SignPage = React.lazy(() => import('app/auth'));
+const OrdersPage = React.lazy(() => import('app/orders'));
 
 
 const AppRoutes = () => {
@@ -38,6 +39,10 @@ const AppRoutes = () => {
       <Route
         path={'/auth/*'}
         element={<PublicRoute element={SignPage} />}
+      />
+       <Route
+        path={'/orders/*'}
+        element={<PublicRoute element={OrdersPage} />}
       />
     
 

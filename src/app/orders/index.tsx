@@ -1,7 +1,8 @@
 import React, { FC } from "react";
 import Header from "components/header";
+import OrdersRoutes from "./orders.routes";
 
-const FlightsPage: FC = () => {
+const OrdersPage: FC = () => {
   return (
     <><Header pages={['Orders', 'History']} isAdmin={false} />
       <OrdersRoutes />
@@ -9,4 +10,4 @@ const FlightsPage: FC = () => {
   );
 };
 
-export default FlightsPage;
+export default OrdersPage;

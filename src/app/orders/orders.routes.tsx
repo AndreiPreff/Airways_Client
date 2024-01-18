@@ -10,16 +10,15 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element 
 };
 
 
-const FlightsPage = React.lazy(() => import('app/flights/flightsSearch.page'));
-const FlightChoicePage = React.lazy(() => import('app/flights/flightsChoice.page'));
 
-const FlightsRoutes: FC = () => {
+const HistoryPage = React.lazy(() => import('app/orders/ordersHistory.page'));
+
+const OrdersRoutes: FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Suspended element={FlightsPage} />} />
-      <Route path="/choice" element={<Suspended element={FlightChoicePage} />} />
+      <Route path="/" element={<Suspended element={HistoryPage} />} />
     </Routes>
   );
 };
 
-export default FlightsRoutes;
+export default OrdersRoutes;

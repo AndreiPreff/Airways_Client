@@ -1,27 +1,23 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Typography, Button, InputLabel, Select, MenuItem } from '@mui/material';
 import { selectTicket } from './store/flights.slice';
-import { selectAvailableTickets, selectFlightsPassengerCount, selectSelectedBackTicket, selectSelectedThereTicket, selectFlightsError } from './store/flights.selectors';
-import { fetchAvailableTicketsSortedByPrice, fetchAvailableTicketsSortedByTime, orderTickets } from './store/flights.actions';
-import { SetStateAction, useEffect, useState } from 'react';
+import { selectAvailableTickets, selectSelectedBackTicket, selectSelectedThereTicket } from './store/flights.selectors';
+import { fetchAvailableTicketsSortedByPrice, fetchAvailableTicketsSortedByTime, } from './store/flights.actions';
+import { SetStateAction, useState } from 'react';
 import TicketCard from './components/ticketCard';
 import SelectedTicketCard from './components/selectedTicketCard';
 import { useNavigate } from 'react-router-dom';
-import { Ticket } from './types/ticket-dto.type';
-import { OrderSelectedData } from './types/orderSelectedData-dto.type';
-
 const FlightChoicePage = () => {
     const dispatch = useDispatch();
     const availableTickets = useSelector(selectAvailableTickets);
     const selectedThereTicket = useSelector(selectSelectedThereTicket);
     const selectedBackTicket = useSelector(selectSelectedBackTicket);
     const navigation = useNavigate();
-
     const [sortType, setSortType] = useState('price');
 
     const handleOrderTicket = () => {
         navigation('/flights/passenger-info');
-     };
+    };
 
     const onDeselectTicket = (ticketType: string) => {
         dispatch(selectTicket({ ticketType, ticket: null }));

@@ -5,23 +5,8 @@ import {
   fetchAvailableTicketsSortedByTime,
   orderTickets,
 } from "./flights.actions";
-import { Ticket } from "../types/ticket-dto.type";
+import { FlightsState } from "../types/flights-state";
 
-interface FlightsState {
-  availableTickets: {
-    data: {
-      there: Array<Array<Ticket>>;
-      back: Array<Array<Ticket>>;
-    };
-  } | null;
-  selectedTickets: {
-    there: Array<Ticket> | null;
-    back: Array<Ticket> | null;
-  };
-  pending: boolean;
-  error: string | null;
-  passengerCount: number | null;
-}
 
 const initialState: FlightsState = {
   availableTickets: null,
