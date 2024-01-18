@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Typography, Button, InputLabel, Select, MenuItem } from '@mui/material';
-import { selectTicket } from './store/flights.slice';
-import { selectAvailableTickets, selectFlightsPassengerCount, selectSelectedBackTicket, selectSelectedThereTicket, selectFlightsError } from './store/flights.selectors';
-import { fetchAvailableTicketsSortedByPrice, fetchAvailableTicketsSortedByTime, orderTickets } from './store/flights.actions';
+import { selectTicket } from './store/orders.slice';
+import { selectAvailableTickets, selectFlightsPassengerCount, selectSelectedBackTicket, selectSelectedThereTicket, selectFlightsError } from './store/orders.selectors';
+import { fetchAvailableTicketsSortedByPrice, fetchAvailableTicketsSortedByTime, orderTickets } from './store/orders.actions';
 import { SetStateAction, useEffect, useState } from 'react';
 import TicketCard from './components/ticketCard';
 import SelectedTicketCard from './components/selectedTicketCard';
@@ -15,13 +15,35 @@ const FlightChoicePage = () => {
     const availableTickets = useSelector(selectAvailableTickets);
     const selectedThereTicket = useSelector(selectSelectedThereTicket);
     const selectedBackTicket = useSelector(selectSelectedBackTicket);
+    const selectedFlightsPassengerCount = useSelector(selectFlightsPassengerCount);
     const navigation = useNavigate();
-
+    const selectedFlightsError = useSelector(selectFlightsError);
     const [sortType, setSortType] = useState('price');
 
+    useEffect(() => {
+        if (selectedFlightsError === "Unauthorized") {
+            navigation('/auth/sign-in');
+        }
+    }, [selectedFlightsError, navigation]);
+
     const handleOrderTicket = () => {
-        navigation('/flights/passenger-info');
-     };
+        const orderData: OrderSelectedData[] = [];
+        const addTicketsToOrderData = (tickets: Ticket[] | null) => {
+            if (tickets) {
+                tickets.forEach((ticket: Ticket) => {
+                    orderData.push({
+                        amount: Number(selectedFlightsPassengerCount),
+                        flightId: ticket.id,
+                    });
+                });
+            }
+        };
+        addTicketsToOrderData(selectedThereTicket);
+        addTicketsToOrderData(selectedBackTicket);
+        if (orderData.length > 0) dispatch<any>(orderTickets(orderData))
+
+
+    };
 
     const onDeselectTicket = (ticketType: string) => {
         dispatch(selectTicket({ ticketType, ticket: null }));

@@ -18,15 +18,12 @@ export const fetchAvailableTickets = createAsyncThunk(
   }
 );
 
-
 export const orderTickets = createAsyncThunk(
-  'flights/orderTickets',
-  async (orderData: OrderDataItem[], { rejectWithValue }) => {
+  'POST/flights/orderTickets',
+  async (orderData:OrderDataItem[], { rejectWithValue }) => {
     try {
       const response = await repository.post('/tickets', orderData);
-      console.log(response.data);
       return response.data;
-      
     } catch (error) {
       const errorMessage = (error as ErrorResponse)?.response?.data.message;
       return rejectWithValue({ error: errorMessage });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -13,8 +13,9 @@ import {
   Typography,
 } from '@mui/material';
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
-import { isAuthorizedSelector } from 'app/auth/store/auth.selectors';
-import { signOut } from 'app/auth/store/auth.actions';
+import { userProfileSelector } from 'app/auth/store/auth.selectors';
+import { getUserProfile, signOut } from 'app/auth/store/auth.actions';
+import { resetUser } from 'app/auth/store/auth.slice';
 
 
 export default function Header({
@@ -27,7 +28,9 @@ export default function Header({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const authorized = useSelector(isAuthorizedSelector);
+  const userInfo = useSelector(userProfileSelector);
+  console.log(userInfo)
+
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -39,8 +42,16 @@ export default function Header({
 
   const handleSignOut = () => {
     dispatch<any>(signOut());
+    setAnchorElNav(null);
+    dispatch(resetUser());
     navigate('/flights');
   };
+
+
+  useEffect(() => {
+    dispatch<any>(getUserProfile());
+}, [dispatch]);
+
 
   return (
     <AppBar position="static">
@@ -64,8 +75,21 @@ export default function Header({
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-            {authorized ? (
-              <>
+            {userInfo ? (
+              <> <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.3rem',
+                  color: 'inherit',
+                  textDecoration: 'none',
+                  marginLeft: 'auto',
+                }}
+              >
+                Hi,{userInfo.first_name}
+              </Typography>
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorElNav}

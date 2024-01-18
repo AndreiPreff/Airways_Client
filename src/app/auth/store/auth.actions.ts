@@ -76,3 +76,18 @@ export const resetPassword = createAsyncThunk(
     }
   }
 );
+
+export const getUserProfile = createAsyncThunk(
+  "GET/users/profile",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await repository.get("users/profile");
+      console.log(response.data,111)
+      return response.data;
+      
+    } catch (error) {
+      const errorMessage = (error as ErrorResponse)?.response?.data.message;
+      return rejectWithValue({ error: errorMessage });
+    }
+  }
+);

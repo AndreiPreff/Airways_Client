@@ -6,3 +6,4 @@ export const selectFlightsError = (state: RootState) => state.flights.error;
 export const selectSelectedThereTicket = (state: RootState) => state.flights.selectedTickets?.there;
 export const selectSelectedBackTicket = (state: RootState) => state.flights.selectedTickets?.back;
 export const selectFlightsPassengerCount = (state: RootState) => state.flights.passengerCount;
+export const selectSelectedTicket = (state: RootState) => state.flights.selectedTickets;

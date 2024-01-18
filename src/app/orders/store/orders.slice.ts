@@ -4,7 +4,7 @@ import {
   fetchAvailableTicketsSortedByPrice,
   fetchAvailableTicketsSortedByTime,
   orderTickets,
-} from "./flights.actions";
+} from "./orders.actions";
 import { Ticket } from "../types/ticket-dto.type";
 
 interface FlightsState {
