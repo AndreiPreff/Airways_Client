@@ -4,7 +4,7 @@ import OrdersRoutes from "./orders.routes";
 
 const OrdersPage: FC = () => {
   return (
-    <><Header pages={['Orders', 'History']} isAdmin={false} />
+    <><Header pages={['Orders', 'Orders/History']} isAdmin={false} />
       <OrdersRoutes />
     </>
   );

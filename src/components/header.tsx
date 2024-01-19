@@ -29,7 +29,6 @@ export default function Header({
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const userInfo = useSelector(userProfileSelector);
-  console.log(userInfo)
 
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {

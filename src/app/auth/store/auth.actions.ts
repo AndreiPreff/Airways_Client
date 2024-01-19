@@ -82,7 +82,6 @@ export const getUserProfile = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await repository.get("users/profile");
-      console.log(response.data,111)
       return response.data;
       
     } catch (error) {

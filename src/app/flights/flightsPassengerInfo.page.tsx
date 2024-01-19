@@ -16,6 +16,8 @@ const PassengerPage: React.FC = () => {
   const [passengersData, setPassengersData] = useState<Array<{ [key: string]: string }>>([]);
   const selectedFlightsError = useSelector(selectFlightsError);
 
+
+
   useEffect(() => {
     if (selectedFlightsError === "Unauthorized") navigation('/auth/sign-in');
   }, [selectedFlightsError, navigation]);
@@ -48,6 +50,7 @@ const PassengerPage: React.FC = () => {
       });
     }
     dispatch<any>(orderTickets(passengersDataArray));
+    navigation("/orders")
   };
 
   return (

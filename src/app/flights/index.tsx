@@ -6,7 +6,7 @@ import Header from "components/header";
 
 const FlightsPage: FC = () => {
   return (
-    <><Header pages={['Orders', 'History']} isAdmin={false} />
+    <><Header pages={['Orders', 'Orders/History']} isAdmin={false} />
       <FlightsRoutes />
     </>
   );

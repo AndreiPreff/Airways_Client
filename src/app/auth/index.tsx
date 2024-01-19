@@ -4,7 +4,7 @@ import Header from "components/header";
 
 const SignPage: React.FC = () => {
   return (
-    <><Header pages={['Orders', 'History']} isAdmin={false} />
+    <><Header pages={['Orders', 'Orders/History']} isAdmin={false} />
       <AuthenticationRoutes />
     </>
   );

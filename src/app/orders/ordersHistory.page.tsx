@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, CardContent, CircularProgress, Typography } from '@mui/material';
+import { Button, Card, CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import { selectOrdersError, selectOrdersPending, selectUserOrders } from './store/orders.selectors';
-import { cancelOrder, fetchAllUserOrders } from './store/orders.actions';
+import { cancelOrder,fetchUserOrders } from './store/orders.actions';
 import SuspenseComponent from 'components/suspense';
 
 
@@ -11,11 +11,10 @@ const HistoryPage: React.FC = () => {
   const userOrders = useSelector(selectUserOrders);
   const pending = useSelector(selectOrdersPending);
   const error = useSelector(selectOrdersError);
-  console.log(userOrders)
 
   useEffect(() => {
 
-    dispatch<any>(fetchAllUserOrders());
+    dispatch<any>( fetchUserOrders());
   }, [dispatch]);
 
   const handleCancelOrder = (orderId: string) => {
@@ -33,23 +32,48 @@ const HistoryPage: React.FC = () => {
 
   return (
     <div>
-      <Typography variant="h4">Order History</Typography>
-      {userOrders && userOrders.length > 0 ? (
-        userOrders.map((order) => (
-          <Card key={order.id}>
-            <CardContent>
-              <Typography variant="h6">{order.id}</Typography>
-              {/* Дополнительная информация о заказе */}
-            </CardContent>
-            <Button onClick={() => handleCancelOrder(order.id)} variant="contained" color="secondary">
-              Cancel
-            </Button>
-          </Card>
-        ))
-      ) : (
-        <Typography>No order history</Typography>
-      )}
-    </div>
+            <Typography variant="h4">My History</Typography>
+            <Grid container spacing={2} sx={{ padding: '10px' }}>
+                {userOrders && userOrders.length > 0 ? (
+                    userOrders.map((order, orderIndex) => (
+                        <Grid key={orderIndex} item xs={12}>
+                            <Card >
+                                <CardContent>
+                                    <Typography variant="h6">Order Total: {order.order.orderTotal}</Typography>
+                                    {order.tickets && order.tickets.length > 0 ? (
+                                        //исправить any
+                                        order.tickets.map((ticket: any, ticketIndex: number) => (
+                                            <div key={ticketIndex}>
+                                                <Typography variant="subtitle1">Direction: {ticket.direction}</Typography>
+                                                <Typography variant="subtitle1">Departure Time: {ticket.flight.departure_time}</Typography>
+                                                <Typography variant="subtitle1">Arrival Time: {ticket.flight.arrival_time}</Typography>
+                                                <Typography variant="subtitle1">Flight Number: {ticket.flight.flight_number}</Typography>
+                                                <Typography variant="subtitle1">From: {ticket.flight.from}</Typography>
+                                                <Typography variant="subtitle1">To: {ticket.flight.to}</Typography>
+                                                <Typography variant="subtitle1">Passenger Last Name: {ticket.passengerLastName}</Typography>
+                                                <Typography variant="subtitle1">Passenger Name: {ticket.passengerName}</Typography>
+                                                <Typography variant="subtitle1">Passenger Passport Number: {ticket.passengerPassportNumber}</Typography>
+                                                <Typography variant="subtitle1">Price: {ticket.price}</Typography>
+
+                                            </div>
+
+                                        ))
+                                    ) : (
+                                        <Typography>No tickets for this order</Typography>
+                                    )}
+                                    <Button onClick={() => handleCancelOrder(order.order.id)} variant="contained" color="secondary">
+                                        CANCEL
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                    ))
+                ) : (
+                    <Typography>No history yet</Typography>
+                )}
+            </Grid>
+        </div>
   );
 };
 

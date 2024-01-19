@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Ticket } from 'app/flights/types/ticket-dto.type';
-import { cancelOrder, fetchAllUserOrders, fetchOrderTickets } from './orders.actions';
+import { cancelOrder, fetchUserOrders, fetchOrderTickets, fetchBookedOrders, markOrderAsPaid } from './orders.actions';
 
 
 interface OrdersState {
-  orderTickets: Ticket[] | null;
+  orderTickets: any[] | null;
   userOrders: any[] | null;
   pending: boolean;
   error: string | null;
@@ -35,15 +35,27 @@ export const ordersSlice = createSlice({
         state.pending = false;
         state.error = action.payload.error;
       })
-      .addCase(fetchAllUserOrders.pending, (state) => {
+      .addCase(fetchBookedOrders.pending, (state) => {
         state.pending = true;
         state.error = null;
       })
-      .addCase(fetchAllUserOrders.fulfilled, (state, { payload }) => {
+      .addCase(fetchBookedOrders.fulfilled, (state, { payload }) => {
+        state.pending = false;
+        state.orderTickets = payload;
+      })
+      .addCase(fetchBookedOrders.rejected, (state, action: any & { payload: any }) => {
+        state.pending = false;
+        state.error = action.payload.error;
+      })
+      .addCase(fetchUserOrders.pending, (state) => {
+        state.pending = true;
+        state.error = null;
+      })
+      .addCase(fetchUserOrders.fulfilled, (state, { payload }) => {
         state.pending = false;
         state.userOrders = payload;
       })
-      .addCase(fetchAllUserOrders.rejected, (state, action: any & { payload: any }) => {
+      .addCase(fetchUserOrders.rejected, (state, action: any & { payload: any }) => {
         state.pending = false;
         state.error = action.payload.error;
       })
@@ -55,6 +67,17 @@ export const ordersSlice = createSlice({
         state.pending = false;
       })
       .addCase(cancelOrder.rejected, (state, action: any & { payload: any }) => {
+        state.pending = false;
+        state.error = action.payload.error;
+      })
+      .addCase(markOrderAsPaid.pending, (state) => {
+        state.pending = true;
+        state.error = null;
+      })
+      .addCase(markOrderAsPaid.fulfilled, (state) => {
+        state.pending = false;
+      })
+      .addCase(markOrderAsPaid.rejected, (state, action: any & { payload: any }) => {
         state.pending = false;
         state.error = action.payload.error;
       });
