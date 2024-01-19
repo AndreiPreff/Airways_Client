@@ -13,6 +13,7 @@ const OrdersPage: React.FC = () => {
         await dispatch<any>(markOrderAsPaid(orderId));
         await dispatch<any>(fetchBookedOrders());
     };
+    console.log(userOrders)
 
     useEffect(() => {
         dispatch<any>(fetchBookedOrders());
