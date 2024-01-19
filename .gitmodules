@@ -1,3 +1,4 @@
 [submodule "src/Airways_Common"]
     path = src/Airways_Common
     url = https://github.com/AndreiPreff/Airways_Common.git
+    branch = develop
