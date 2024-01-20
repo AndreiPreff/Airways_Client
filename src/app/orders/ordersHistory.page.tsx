@@ -2,36 +2,36 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import { selectOrdersError, selectOrdersPending, selectUserOrders } from './store/orders.selectors';
-import { cancelOrder,fetchUserOrders } from './store/orders.actions';
+import { cancelOrder, fetchUserOrders } from './store/orders.actions';
 import SuspenseComponent from 'components/suspense';
 
 
 const HistoryPage: React.FC = () => {
-  const dispatch = useDispatch();
-  const userOrders = useSelector(selectUserOrders);
-  const pending = useSelector(selectOrdersPending);
-  const error = useSelector(selectOrdersError);
+    const dispatch = useDispatch();
+    const userOrders = useSelector(selectUserOrders);
+    const pending = useSelector(selectOrdersPending);
+    const error = useSelector(selectOrdersError);
+    useEffect(() => {
 
-  useEffect(() => {
+        dispatch<any>(fetchUserOrders());
+    }, [dispatch]);
 
-    dispatch<any>( fetchUserOrders());
-  }, [dispatch]);
+    const handleCancelOrder = async (orderId: string) => {
 
-  const handleCancelOrder = (orderId: string) => {
-   
-    dispatch<any>(cancelOrder(orderId));
-  };
+        await dispatch<any>(cancelOrder(orderId));
+        await dispatch<any>(fetchUserOrders());
+    };
 
-  if (pending) {
-    return <SuspenseComponent />;
-  }
+    if (pending) {
+        return <SuspenseComponent />;
+    }
 
-  if (error) {
-    return <Typography color="error">{error}</Typography>;
-  }
+    if (error) {
+        return <Typography color="error">{error}</Typography>;
+    }
 
-  return (
-    <div>
+    return (
+        <div>
             <Typography variant="h4">My History</Typography>
             <Grid container spacing={2} sx={{ padding: '10px' }}>
                 {userOrders && userOrders.length > 0 ? (
@@ -74,7 +74,7 @@ const HistoryPage: React.FC = () => {
                 )}
             </Grid>
         </div>
-  );
+    );
 };
 
 export default HistoryPage;
