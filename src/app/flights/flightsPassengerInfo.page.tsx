@@ -50,7 +50,7 @@ const PassengerPage: React.FC = () => {
       });
     }
     dispatch<any>(orderTickets(passengersDataArray));
-    navigation("/orders")
+    navigation("/orders/success")
   };
 
   return (
