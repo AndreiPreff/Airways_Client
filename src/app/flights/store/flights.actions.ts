@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FieldValues } from 'react-hook-form';
-import repository from 'repository';
 import { ErrorResponse } from 'types/error.type';
 import { OrderDataItem } from '../types/orderData-dto.type';
 import { Ticket } from '../types/ticket-dto.type';
+import repository from 'Airways_Common/components/repository';
 
 export const fetchAvailableTickets = createAsyncThunk(
   'POST/flights/fetchAvailableTickets',

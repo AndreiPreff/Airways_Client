@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import repository from 'repository';
+import repository from 'Airways_Common/components/repository';
 import { ErrorResponse } from 'types/error.type';
 
 export const fetchOrderTickets = createAsyncThunk(

@@ -1,11 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authSlice } from "app/auth/store/auth.slice";
+import { authSlice } from "Airways_Common/components/auth/store/auth.slice";
 import { flightsSlice } from "app/flights/store/flights.slice";
 import { ordersSlice } from "app/orders/store/orders.slice";
-
-
-
-
 
 
 const store = configureStore({

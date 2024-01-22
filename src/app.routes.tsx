@@ -24,7 +24,7 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 
 
 const FlightsPage = React.lazy(() => import('app/flights'));
-const SignPage = React.lazy(() => import('app/auth'));
+const SignPage = React.lazy(() => import('./Airways_Common/components/auth'));
 const OrdersPage = React.lazy(() => import('app/orders'));
 
 
