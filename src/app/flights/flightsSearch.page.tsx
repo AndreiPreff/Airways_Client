@@ -1,82 +1,56 @@
-
+import React, { useState } from 'react';
 import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControlLabel,
+  Checkbox,
+  Grid,
   Typography,
 } from '@mui/material';
-import ChatSwitchPage from 'components/chatSwitch.comp';
-import React, { useState } from 'react';
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { fetchAvailableTickets } from "./store/flights.actions";
-import { selectPassengerCount } from "./store/flights.slice";
+import { useDispatch } from 'react-redux';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { fetchAvailableTickets } from './store/flights.actions';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FormValues } from './types/formValues-dto.type';
+import { flightschema } from './validators/flightsSchemas';
 
+
+const cities = ['Minsk', 'Warsaw','Moscow','Kyiv','Prague', 'Amsterdam', 'London', 'Paris', 'Madrid', 'Milan', 'Istanbul','Vienna',];
 
 const FlightsPage = () => {
   const navigation = useNavigate();
-  const [departureCity, setDepartureCity] = useState('');
-  const [arrivalCity, setArrivalCity] = useState('');
-  const [departureDate, setDepartureDate] = useState('');
-  const [returnDate, setReturnDate] = useState('');
-  const [passengerCount, setPassengerCount] = useState('');
-  const [roundTrip, setRoundTrip] = useState(false);
-  const [transfers, setTransfers] = useState(0);
-  const cities = ['Minsk', 'Warsaw', 'Moscow', 'Kyiv', 'Prague', 'Amsterdam', 'London', 'Paris', 'Madrid', 'Milan', 'Istanbul', 'Vienna'];
   const dispatch = useDispatch();
+  const {
+    handleSubmit,
+    control,
+    register,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(flightschema),
+  });
 
-  const handleDepartureCityChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setDepartureCity(event.target.value);
-  };
+  const [roundTrip, setRoundTrip] = useState(false);
 
-  const handleArrivalCityChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setArrivalCity(event.target.value);
-  };
-
-  const handleDepartureDateChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setDepartureDate(event.target.value);
-  };
-
-  const handleReturnDateChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setReturnDate(event.target.value);
-  };
-
-  const handlePassengerCountChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setPassengerCount(event.target.value);
-    dispatch<any>(selectPassengerCount(event.target.value));
-  };
-
-  const handleRoundTripChange = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
-    setRoundTrip(event.target.checked);
-  };
-
-  const handleTransfersChange = (event: SelectChangeEvent<number>) => {
-    setTransfers(Number(event.target.value));
-  };
-
-  const handleBookFlight = () => {
-   
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     const formData = {
-      from: departureCity,
-      to: arrivalCity,
-      departureDate:`${departureDate}T00:00:00.000Z`,
-      maxStops:transfers,
-      roundTrip,
-      returnDate: returnDate ? `${returnDate}T00:00:00.000Z` : null,
-      ticketsAmount: Number(passengerCount),
-      };
+      from: data.departureCity,
+      to: data.arrivalCity,
+      departureDate: `${data.departureDate}T00:00:00.000Z`,
+      maxStops: data.transfers,
+      roundTrip: roundTrip,
+      returnDate: data.returnDate ? `${data.returnDate}T00:00:00.000Z` : null,
+      ticketsAmount: Number(data.passengerCount),
+    };
 
     dispatch<any>(fetchAvailableTickets(formData));
-    navigation("/flights/choice")
+    navigation('/flights/choice');
   };
-
 
   return (
     <>
@@ -85,47 +59,63 @@ const FlightsPage = () => {
           <Typography variant="h4" gutterBottom>
             Search
           </Typography>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth>
               <InputLabel id="departure-city-label">Departure City</InputLabel>
-              <Select
-                sx={{ width: "100%", mb: 2 }}
-                labelId="departure-city-label"
-                id="departure-city"
-                value={departureCity}
-                onChange={handleDepartureCityChange}
-              >
-                {cities.map((city, index) => (
-                  <MenuItem key={index} value={city}>
-                    {city}
-                  </MenuItem>
-                ))}
-              </Select>
+              <Controller
+                name="departureCity"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <>
+                    <Select sx={{ width: '100%', mb: 2 }} labelId="departure-city-label" id="departure-city" {...field}>
+                      {cities.map((city, index) => (
+                        <MenuItem key={index} value={city}>
+                          {city}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {errors.departureCity && (
+                      <Typography color="error" sx={{ fontSize: 16, fontWeight: 'bold' }}>
+                        {errors.departureCity.message}
+                      </Typography>
+                    )}
+                  </>
+                )}
+              />
             </FormControl>
+
             <FormControl fullWidth>
               <InputLabel id="arrival-city-label">Arrival City</InputLabel>
-              <Select
-                sx={{ width: "100%", mb: 2 }}
-                labelId="arrival-city-label"
-                id="arrival-city"
-                value={arrivalCity}
-                onChange={handleArrivalCityChange}
-              >
-                {cities.map((city, index) => (
-                  <MenuItem key={index} value={city}>
-                    {city}
-                  </MenuItem>
-                ))}
-              </Select>
+              <Controller
+                name="arrivalCity"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <>
+                    <Select sx={{ width: '100%', mb: 2 }} labelId="arrival-city-label" id="arrival-city" {...field}>
+                      {cities.map((city, index) => (
+                        <MenuItem key={index} value={city}>
+                          {city}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {errors.arrivalCity && (
+                      <Typography color="error" sx={{ fontSize: 16, fontWeight: 'bold' }}>
+                        {errors.arrivalCity.message}
+                      </Typography>
+                    )}
+                  </>
+                )}
+              />
             </FormControl>
 
             <TextField
-              sx={{ width: "100%", mb: 2 }}
+              sx={{ width: '100%', mb: 2 }}
               id="departure-date"
               label="Departure Date"
               type="date"
-              value={departureDate}
-              onChange={handleDepartureDateChange}
+              {...register('departureDate')}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -133,12 +123,11 @@ const FlightsPage = () => {
 
             {roundTrip && (
               <TextField
-                sx={{ width: "100%", mb: 2 }}
+                sx={{ width: '100%', mb: 2 }}
                 id="return-date"
                 label="Return Date"
                 type="date"
-                value={returnDate}
-                onChange={handleReturnDateChange}
+                {...register('returnDate')}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -149,7 +138,7 @@ const FlightsPage = () => {
               control={
                 <Checkbox
                   checked={roundTrip}
-                  onChange={handleRoundTripChange}
+                  onChange={(e) => setRoundTrip(e.target.checked)}
                   name="roundTrip"
                   color="primary"
                 />
@@ -157,42 +146,54 @@ const FlightsPage = () => {
               label="Round Trip"
             />
 
-            <FormControl fullWidth>
-              <InputLabel id="transfers-label">Transfers</InputLabel>
-              <Select
-                sx={{ width: "100%", mb: 2, mt: 2 }}
-                labelId="transfers-label"
-                id="transfers"
-                value={transfers}
-                onChange={handleTransfersChange}
-              >
-                <MenuItem value={0}>0 Transfers</MenuItem>
-                <MenuItem value={1}>1 Transfer</MenuItem>
-                <MenuItem value={2}>2 Transfers</MenuItem>
-              </Select>
-            </FormControl>
+
 
             <FormControl fullWidth>
+              <InputLabel id="transfers-label">Transfers</InputLabel>
+              <Controller
+                name="transfers"
+                control={control}
+                defaultValue={0}
+                render={({ field }) => (
+                  <>
+                    <Select sx={{ width: '100%', mb: 2, mt: 2 }} labelId="transfers-label" id="transfers" {...field}>
+                      <MenuItem value={0}>0 Transfers</MenuItem>
+                      <MenuItem value={1}>1 Transfer</MenuItem>
+                      <MenuItem value={2}>2 Transfers</MenuItem>
+                    </Select>
+                    {errors.transfers && (
+                      <Typography color="error" sx={{ fontSize: 16, fontWeight: 'bold' }}>
+                        {errors.transfers.message}
+                      </Typography>
+                    )}
+                  </>
+                )}
+              />
+            </FormControl>
+           <FormControl fullWidth>
               <TextField
                 id="passenger-count"
                 type="number"
                 label="Passenger Count"
                 sx={{ width: '100%', mb: 2 }}
-                value={passengerCount}
-                onChange={handlePassengerCountChange}
+                {...register('passengerCount')}
                 inputProps={{ min: 0, max: 100 }}
               />
+              {errors.passengerCount && (
+                <Typography color="error" sx={{ fontSize: 16, fontWeight: 'bold' }}>
+                  {errors.passengerCount.message}
+                </Typography>
+              )}
             </FormControl>
 
-            <Button variant="contained" color="primary" onClick={handleBookFlight}>
+            <Button type="submit" variant="contained" color="primary">
               Book Flight
             </Button>
-          </form></Grid>
-          <ChatSwitchPage/>
-          </Grid>
-</>
+          </form>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 
 export default FlightsPage;
-
