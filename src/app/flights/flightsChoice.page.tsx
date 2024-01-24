@@ -10,7 +10,6 @@ import { SetStateAction, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SelectedTicketCard from "./components/selectedTicketCard";
-import TicketCard from "./components/ticketCard";
 import {
   fetchAvailableTicketsSortedByPrice,
   fetchAvailableTicketsSortedByTime,
@@ -22,6 +21,7 @@ import {
 } from "./store/flights.selectors";
 import { selectTicket } from "./store/flights.slice";
 import ChatSwitchPage from "components/chatSwitch.comp";
+import TicketCard from "Airways_Common/components/ticketCard";
 const FlightChoicePage = () => {
   const dispatch = useDispatch();
   const availableTickets = useSelector(selectAvailableTickets);
@@ -87,7 +87,7 @@ const FlightChoicePage = () => {
           )}
           {availableTickets.there.map((ticket, index) => (
             <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-              <TicketCard tickets={[ticket]} ticketType="there" />
+              <TicketCard tickets={[ticket]} ticketType="there" admin={false} />
             </Grid>
           ))}
           {availableTickets.back.length > 0 && (
@@ -99,7 +99,7 @@ const FlightChoicePage = () => {
           )}
           {availableTickets.back.map((ticket, index) => (
             <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-              <TicketCard tickets={[ticket]} ticketType="back" />
+              <TicketCard tickets={[ticket]} ticketType="back" admin={false} />
             </Grid>
           ))}
         </>

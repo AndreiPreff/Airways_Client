@@ -15,4 +15,5 @@ export interface Ticket {
   export interface TicketCardProps {
     tickets: Array<Array<Ticket>>; 
     ticketType: string; 
+    admin:boolean;
   }
