@@ -1,21 +1,22 @@
 
-import React, { useState } from 'react';
 import {
-  TextField,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormControlLabel,
   Checkbox,
+  FormControl,
+  FormControlLabel,
   Grid,
-  Typography,
+  InputLabel,
+  MenuItem,
+  Select,
   SelectChangeEvent,
+  TextField,
+  Typography,
 } from '@mui/material';
+import ChatSwitchPage from 'components/chatSwitch.comp';
+import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { fetchAvailableTickets } from "./store/flights.actions";
 import { useNavigate } from "react-router-dom";
+import { fetchAvailableTickets } from "./store/flights.actions";
 import { selectPassengerCount } from "./store/flights.slice";
 
 
@@ -30,7 +31,6 @@ const FlightsPage = () => {
   const [transfers, setTransfers] = useState(0);
   const cities = ['Minsk', 'Warsaw', 'Moscow', 'Kyiv', 'Prague', 'Amsterdam', 'London', 'Paris', 'Madrid', 'Milan', 'Istanbul', 'Vienna'];
   const dispatch = useDispatch();
-
 
   const handleDepartureCityChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setDepartureCity(event.target.value);
@@ -187,7 +187,10 @@ const FlightsPage = () => {
             <Button variant="contained" color="primary" onClick={handleBookFlight}>
               Book Flight
             </Button>
-          </form></Grid></Grid></>
+          </form></Grid>
+          <ChatSwitchPage/>
+          </Grid>
+</>
   );
 };
 
