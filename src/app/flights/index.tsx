@@ -7,7 +7,7 @@ import Header from "Airways_Common/components/header";
 
 const FlightsPage: FC = () => {
   return (
-    <><Header pages={['Orders', 'Orders/History']} isAdmin={false} />
+    <><Header isAdmin={false} />
       <FlightsRoutes />
     </>
   );
