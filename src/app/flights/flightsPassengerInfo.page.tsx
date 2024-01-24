@@ -1,25 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectFlightsError, selectFlightsPassengerCount, selectSelectedTicket } from './store/flights.selectors';
-import PassengerForm from './components/passengerForm';
-import { PassengerFormData } from './types/passangerData-dto.type';
-import { orderTickets } from './store/flights.actions';
-import { Button, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-
+import { Button, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import PassengerForm from "./components/passengerForm";
+import { orderTickets } from "./store/flights.actions";
+import {
+  selectFlightsError,
+  selectFlightsPassengerCount,
+  selectSelectedTicket,
+} from "./store/flights.selectors";
+import { PassengerFormData } from "./types/passangerData-dto.type";
+import ChatSwitchPage from "components/chatSwitch.comp";
 
 const PassengerPage: React.FC = () => {
   const dispatch = useDispatch();
   const selectedTickets = useSelector(selectSelectedTicket);
-  const selectedFlightsPassengerCount = useSelector(selectFlightsPassengerCount);
+  const selectedFlightsPassengerCount = useSelector(
+    selectFlightsPassengerCount
+  );
   const navigation = useNavigate();
-  const [passengersData, setPassengersData] = useState<Array<{ [key: string]: string }>>([]);
+  const [passengersData, setPassengersData] = useState<
+    Array<{ [key: string]: string }>
+  >([]);
   const selectedFlightsError = useSelector(selectFlightsError);
 
-
-
   useEffect(() => {
-    if (selectedFlightsError === "Unauthorized") navigation('/auth/sign-in');
+    if (selectedFlightsError === "Unauthorized") navigation("/auth/sign-in");
   }, [selectedFlightsError, navigation]);
 
   const handleInputChange = (index: number, data: PassengerFormData) => {
@@ -40,34 +46,48 @@ const PassengerPage: React.FC = () => {
       passengerPassportNumber: string;
     }> = [];
 
-    for (let i = 0; i < (selectedFlightsPassengerCount ? selectedFlightsPassengerCount : 0); i++) {
+    for (
+      let i = 0;
+      i < (selectedFlightsPassengerCount ? selectedFlightsPassengerCount : 0);
+      i++
+    ) {
       passengersDataArray.push({
-        flightIdThere: selectedTickets.there ? selectedTickets.there.map((ticket) => ticket.id) : null,
-        flightIdBack: selectedTickets.back ? selectedTickets.back.map((ticket) => ticket.id) : null,
+        flightIdThere: selectedTickets.there
+          ? selectedTickets.there.map((ticket) => ticket.id)
+          : null,
+        flightIdBack: selectedTickets.back
+          ? selectedTickets.back.map((ticket) => ticket.id)
+          : null,
         passengerName: passengersData[i]?.passengerName,
         passengerLastName: passengersData[i]?.passengerLastName,
         passengerPassportNumber: passengersData[i]?.passengerPassportNumber,
       });
     }
     dispatch<any>(orderTickets(passengersDataArray));
-    navigation("/orders/success")
+    navigation("/orders/success");
   };
 
   return (
     <div>
-      <Typography variant="h2">
-        Passenger Information
-      </Typography>
+      <Typography variant="h2">Passenger Information</Typography>
       {selectedFlightsPassengerCount &&
         Array.from({ length: selectedFlightsPassengerCount }, (_, index) => (
           <PassengerForm
             key={index}
             passengerNumber={index + 1}
-            onInputChange={(data: PassengerFormData) => handleInputChange(index, data)}
+            onInputChange={(data: PassengerFormData) =>
+              handleInputChange(index, data)
+            }
           />
-        ))
-      }
-      <Button onClick={handleOrderTickets} variant="contained" color="secondary">Order Tickets</Button>
+        ))}
+      <Button
+        onClick={handleOrderTickets}
+        variant="contained"
+        color="secondary"
+      >
+        Order Tickets
+      </Button>
+      <ChatSwitchPage />
     </div>
   );
 };
