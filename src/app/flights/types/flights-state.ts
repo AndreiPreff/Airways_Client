@@ -11,6 +11,8 @@ export interface FlightsState {
       there: Array<Ticket> | null;
       back: Array<Ticket> | null;
     };
+    messages: null,
+    user: any,
     pending: boolean;
     error: string | null;
     passengerCount: number | null;

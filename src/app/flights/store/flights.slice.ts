@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { FlightsState } from "../types/flights-state";
 import {
   fetchAvailableTickets,
   fetchAvailableTicketsSortedByPrice,
   fetchAvailableTicketsSortedByTime,
+  fetchHistory,
+  getUserProfile,
   orderTickets,
 } from "./flights.actions";
-import { FlightsState } from "../types/flights-state";
 
 
 const initialState: FlightsState = {
@@ -14,6 +16,8 @@ const initialState: FlightsState = {
     there: null,
     back: null,
   },
+  messages: null,
+  user: null,
   pending: false,
   error: null,
   passengerCount: null,
@@ -98,7 +102,35 @@ export const flightsSlice = createSlice({
           state.pending = false;
           state.error = action.payload.error;
         }
+      )
+      .addCase(fetchHistory.pending, (state) => {
+        state.pending = true;
+        state.error = null;
+      })
+      .addCase(fetchHistory.fulfilled, (state, { payload }) => {
+        state.pending = false;
+        state.messages = payload;
+      })
+      .addCase(fetchHistory.rejected, (state, action: any & { payload: any }) => {
+        state.pending = false;
+        state.error = action.payload.error;
+      })
+      .addCase(getUserProfile.pending, (state) => {
+        state.pending = true; 
+        state.error = null;
+      })
+      .addCase(getUserProfile.fulfilled, (state, { payload }) => {
+        state.pending = false; 
+        state.user = payload;
+      })
+      .addCase(
+        getUserProfile.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending = false; 
+          state.error = action.payload.error;
+        }
       );
+      
   },
 });
 
