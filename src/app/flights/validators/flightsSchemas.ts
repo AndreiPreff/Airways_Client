@@ -22,8 +22,7 @@ export const flightschema = yup.object().shape({
   passengerCount: yup
     .number()
     .required('Passenger Count is required')
-    .min(0, 'Passenger Count must be at least 0')
-    .integer('Passenger Count must be an integer'),
+    .min(0, 'Passenger Count must be at least 0'),
   transfers: yup.number().required('Transfers is required').min(0, 'Transfers must be at least 0').integer('Transfers must be an integer'),
 });
 

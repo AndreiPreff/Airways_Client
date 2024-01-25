@@ -18,6 +18,7 @@ import { fetchAvailableTickets } from './store/flights.actions';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormValues } from './types/formValues-dto.type';
 import { flightschema } from './validators/flightsSchemas';
+import { selectPassengerCount } from './store/flights.slice';
 
 
 const cities = ['Minsk', 'Warsaw','Moscow','Kyiv','Prague', 'Amsterdam', 'London', 'Paris', 'Madrid', 'Milan', 'Istanbul','Vienna',];
@@ -46,7 +47,7 @@ const FlightsPage = () => {
       returnDate: data.returnDate ? `${data.returnDate}T00:00:00.000Z` : null,
       ticketsAmount: Number(data.passengerCount),
     };
-
+    dispatch<any>(selectPassengerCount(data.passengerCount));
     dispatch<any>(fetchAvailableTickets(formData));
     navigation('/flights/choice');
   };
@@ -180,7 +181,7 @@ const FlightsPage = () => {
               />
               {errors.passengerCount && (
                 <Typography color="error" sx={{ fontSize: 16, fontWeight: 'bold' }}>
-                  {errors.passengerCount.message}
+                  Invalid data!
                 </Typography>
               )}
             </FormControl>

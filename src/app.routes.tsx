@@ -43,7 +43,7 @@ const AppRoutes = () => {
       {/* PRIVATE */}
        <Route
         path={'/orders/*'}
-        element={<PrivateRoute element={OrdersPage} />}
+        element={<PublicRoute element={OrdersPage} />}
       />
     
 

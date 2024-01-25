@@ -18,6 +18,7 @@ const PassengerPage: React.FC = () => {
   const selectedFlightsPassengerCount = useSelector(
     selectFlightsPassengerCount
   );
+  console.log(selectedFlightsPassengerCount)
   const navigation = useNavigate();
   const [passengersData, setPassengersData] = useState<
     Array<{ [key: string]: string }>
