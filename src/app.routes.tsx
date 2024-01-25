@@ -3,7 +3,7 @@ import React, { FC, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-  return localStorage.getItem('access_token') ? (
+  return localStorage.getItem("access_token") ? (
     <Suspense fallback={<SuspenseComponent />}>
       <div>
         <Element />
@@ -27,29 +27,17 @@ const OrdersPage = React.lazy(() => import("app/orders"));
 const AppRoutes = () => {
   return (
     <Routes>
-<<<<<<< HEAD
-      
-  
-=======
       {/* PRIVATE */}
->>>>>>> 8dc12ce (chat updating)
 
       {/* PUBLIC */}
       <Route
         path={"/flights/*"}
         element={<PublicRoute element={FlightsPage} />}
       />
-<<<<<<< HEAD
-      {/* PRIVATE */}
-       <Route
-        path={'/orders/*'}
-        element={<PrivateRoute element={OrdersPage} />}
-=======
       <Route path={"/auth/*"} element={<PublicRoute element={SignPage} />} />
       <Route
         path={"/orders/*"}
         element={<PublicRoute element={OrdersPage} />}
->>>>>>> 8dc12ce (chat updating)
       />
 
       {/* DEFAULT */}
