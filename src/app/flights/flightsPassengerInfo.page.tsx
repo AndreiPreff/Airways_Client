@@ -18,16 +18,12 @@ const PassengerPage: React.FC = () => {
   const selectedFlightsPassengerCount = useSelector(
     selectFlightsPassengerCount
   );
-  console.log(selectedFlightsPassengerCount)
   const navigation = useNavigate();
   const [passengersData, setPassengersData] = useState<
     Array<{ [key: string]: string }>
   >([]);
-  const selectedFlightsError = useSelector(selectFlightsError);
 
-  useEffect(() => {
-    if (selectedFlightsError === "Unauthorized") navigation("/auth/sign-in");
-  }, [selectedFlightsError, navigation]);
+
 
   const handleInputChange = (index: number, data: PassengerFormData) => {
     const newPassengersData = [...passengersData];
@@ -65,7 +61,8 @@ const PassengerPage: React.FC = () => {
       });
     }
     dispatch<any>(orderTickets(passengersDataArray));
-    navigation("/orders/success");
+    sessionStorage.getItem("accessToken") ? navigation("/orders/success") : navigation("/auth/sign-in")
+
   };
 
   return (

@@ -2,8 +2,9 @@ import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { passengerSchema } from '../validators/flightsSchemas';
 import { PassengerFormData, PassengerFormProps } from '../types/passangerData-dto.type';
+import { passengerDataSchema } from '../validators/flightsSchemas';
+
 
 
 const PassengerForm: React.FC<PassengerFormProps> = ({ passengerNumber, onInputChange }) => {
@@ -12,7 +13,7 @@ const PassengerForm: React.FC<PassengerFormProps> = ({ passengerNumber, onInputC
     handleSubmit,
     formState: { errors },
   } = useForm<PassengerFormData>({
-    resolver: yupResolver(passengerSchema),
+    resolver: yupResolver(passengerDataSchema),
     defaultValues: {
       passengerName: '',
       passengerLastName: '',

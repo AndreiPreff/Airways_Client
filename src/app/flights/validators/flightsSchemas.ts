@@ -26,3 +26,9 @@ export const flightschema = yup.object().shape({
   transfers: yup.number().required('Transfers is required').min(0, 'Transfers must be at least 0').integer('Transfers must be an integer'),
 });
 
+export const passengerDataSchema = yup.object().shape({
+  passengerName: yup.string().min(1, 'Name must have at least 1 character').required('Name is required'),
+  passengerLastName: yup.string().min(1, 'Last Name must have at least 1 character').required('Last Name is required'),
+  passengerPassportNumber: yup.string().min(1, 'Passport Number must have at least 1 character').required('Passport Number is required'),
+});
+

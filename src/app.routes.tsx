@@ -3,7 +3,7 @@ import React, { FC, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-  return localStorage.getItem("access_token") ? (
+  return sessionStorage.getItem("accessToken") ? (
     <Suspense fallback={<SuspenseComponent />}>
       <div>
         <Element />
