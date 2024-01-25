@@ -6,12 +6,8 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { fetchHistory } from "app/flights/store/flights.actions";
-import { selectChatMessages } from "app/flights/store/flights.selectors";
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
-import { userProfileSelector } from "../app/flights/store/flights.selectors";
 
 interface Message {
   senderId: string;
@@ -24,13 +20,9 @@ interface ChatModalProps {
 }
 
 const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onRequestClose }) => {
-  const user = useSelector(userProfileSelector);
-  const userId = user?.id;
-  const messages1 = useSelector(selectChatMessages);
-
-  console.log(messages1);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const userId = "e1eb257a-ca35-493a-ad8d-255f4504d718";
   const socket = io("http://localhost:5001", {
     transports: ["websocket"],
     query: {
@@ -39,13 +31,10 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onRequestClose }) => {
     },
   });
 
-  const dispatch = useDispatch();
+  const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    dispatch<any>(fetchHistory(userId));
-  }, [userId, dispatch, user]);
-
-  useEffect(() => {
+    fetchHistory();
     socket.on(
       "message",
       ({ senderId, content }: { senderId: string; content: string }) => {
@@ -62,7 +51,15 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onRequestClose }) => {
     scrollToBottom();
   }, [messages]);
 
-  const listRef = useRef<HTMLUListElement>(null);
+  const fetchHistory = async () => {
+    try {
+      const response = await fetch(`http://localhost:5001/chat/${userId}`);
+      const history = await response.json();
+      setMessages(history);
+    } catch (error) {
+      console.error("Failed to fetch message history:", error);
+    }
+  };
 
   const handleSendMessage = () => {
     socket.emit("message", {
@@ -99,31 +96,29 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onRequestClose }) => {
           }}
         >
           <ul ref={listRef} style={{ width: "100%" }}>
-            {messages &&
-              messages.map((message, index) => (
-                <li
-                  key={index}
-                  style={{
-                    marginBottom: 2,
-                    alignSelf:
-                      message.senderId === userId ? "flex-end" : "flex-start",
-                    width: "100%",
-                  }}
-                >
-                  <div style={{ width: "100%", padding: "10px" }}>
-                    <span
-                      style={{
-                        textAlign:
-                          message.senderId === userId ? "right" : "left",
-                        color: message.senderId === userId ? "blue" : "green",
-                      }}
-                    >
-                      {message.senderId === userId ? "You:" : "Manager:"}{" "}
-                      {message.content}
-                    </span>
-                  </div>
-                </li>
-              ))}
+            {messages.map((message, index) => (
+              <li
+                key={index}
+                style={{
+                  marginBottom: 2,
+                  alignSelf:
+                    message.senderId === userId ? "flex-end" : "flex-start",
+                  width: "100%",
+                }}
+              >
+                <div style={{ width: "100%", padding: "10px" }}>
+                  <span
+                    style={{
+                      textAlign: message.senderId === userId ? "right" : "left",
+                      color: message.senderId === userId ? "blue" : "green",
+                    }}
+                  >
+                    {message.senderId === userId ? "You:" : "Manager:"}{" "}
+                    {message.content}
+                  </span>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
         <TextField
