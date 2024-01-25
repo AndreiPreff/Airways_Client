@@ -25,7 +25,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onRequestClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const user = useSelector(userProfileSelector);
-  const userId = user.id;
+  const userId = user?.id;
   const socket = io("http://localhost:5001", {
     transports: ["websocket"],
     query: {
@@ -52,7 +52,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onRequestClose }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, user]);
 
   const fetchHistory = async () => {
     try {
