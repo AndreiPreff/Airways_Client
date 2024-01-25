@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { fetchAvailableTickets } from './store/flights.actions';
 import { yupResolver } from '@hookform/resolvers/yup';

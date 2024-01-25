@@ -4,7 +4,7 @@ import { Navigate, Routes, Route } from 'react-router-dom';
 
 
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-  return sessionStorage.getItem('access_token') ? (
+  return localStorage.getItem('access_token') ? (
     <Suspense fallback={<SuspenseComponent />}>
       <div>
         <Element />
@@ -31,7 +31,7 @@ const OrdersPage = React.lazy(() => import('app/orders'));
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* PRIVATE */}
+      
   
 
       {/* PUBLIC */}
@@ -40,9 +40,10 @@ const AppRoutes = () => {
         path={'/auth/*'}
         element={<PublicRoute element={SignPage} />}
       />
+      {/* PRIVATE */}
        <Route
         path={'/orders/*'}
-        element={<PublicRoute element={OrdersPage} />}
+        element={<PrivateRoute element={OrdersPage} />}
       />
     
 
