@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+
 import {
-  TextField,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormControlLabel,
   Checkbox,
+  FormControl,
+  FormControlLabel,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
   Typography,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -19,9 +19,23 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormValues } from './types/formValues-dto.type';
 import { flightschema } from './validators/flightsSchemas';
 import { selectPassengerCount } from './store/flights.slice';
+import { useState } from 'react';
 
 
-const cities = ['Minsk', 'Warsaw','Moscow','Kyiv','Prague', 'Amsterdam', 'London', 'Paris', 'Madrid', 'Milan', 'Istanbul','Vienna',];
+const cities = [
+  "Minsk",
+  "Warsaw",
+  "Moscow",
+  "Kyiv",
+  "Prague",
+  "Amsterdam",
+  "London",
+  "Paris",
+  "Madrid",
+  "Milan",
+  "Istanbul",
+  "Vienna",
+];
 
 const FlightsPage = () => {
   const navigation = useNavigate();
@@ -47,9 +61,10 @@ const FlightsPage = () => {
       returnDate: data.returnDate ? `${data.returnDate}T00:00:00.000Z` : null,
       ticketsAmount: Number(data.passengerCount),
     };
+
     dispatch<any>(selectPassengerCount(data.passengerCount));
     dispatch<any>(fetchAvailableTickets(formData));
-    navigation('/flights/choice');
+    navigation("/flights/choice");
   };
 
   return (
@@ -68,7 +83,12 @@ const FlightsPage = () => {
                 defaultValue=""
                 render={({ field }) => (
                   <>
-                    <Select sx={{ width: '100%', mb: 2 }} labelId="departure-city-label" id="departure-city" {...field}>
+                    <Select
+                      sx={{ width: "100%", mb: 2 }}
+                      labelId="departure-city-label"
+                      id="departure-city"
+                      {...field}
+                    >
                       {cities.map((city, index) => (
                         <MenuItem key={index} value={city}>
                           {city}
@@ -76,7 +96,10 @@ const FlightsPage = () => {
                       ))}
                     </Select>
                     {errors.departureCity && (
-                      <Typography color="error" sx={{ fontSize: 16, fontWeight: 'bold' }}>
+                      <Typography
+                        color="error"
+                        sx={{ fontSize: 16, fontWeight: "bold" }}
+                      >
                         {errors.departureCity.message}
                       </Typography>
                     )}
@@ -93,7 +116,12 @@ const FlightsPage = () => {
                 defaultValue=""
                 render={({ field }) => (
                   <>
-                    <Select sx={{ width: '100%', mb: 2 }} labelId="arrival-city-label" id="arrival-city" {...field}>
+                    <Select
+                      sx={{ width: "100%", mb: 2 }}
+                      labelId="arrival-city-label"
+                      id="arrival-city"
+                      {...field}
+                    >
                       {cities.map((city, index) => (
                         <MenuItem key={index} value={city}>
                           {city}
@@ -101,7 +129,10 @@ const FlightsPage = () => {
                       ))}
                     </Select>
                     {errors.arrivalCity && (
-                      <Typography color="error" sx={{ fontSize: 16, fontWeight: 'bold' }}>
+                      <Typography
+                        color="error"
+                        sx={{ fontSize: 16, fontWeight: "bold" }}
+                      >
                         {errors.arrivalCity.message}
                       </Typography>
                     )}
@@ -111,11 +142,11 @@ const FlightsPage = () => {
             </FormControl>
 
             <TextField
-              sx={{ width: '100%', mb: 2 }}
+              sx={{ width: "100%", mb: 2 }}
               id="departure-date"
               label="Departure Date"
               type="date"
-              {...register('departureDate')}
+              {...register("departureDate")}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -123,11 +154,11 @@ const FlightsPage = () => {
 
             {roundTrip && (
               <TextField
-                sx={{ width: '100%', mb: 2 }}
+                sx={{ width: "100%", mb: 2 }}
                 id="return-date"
                 label="Return Date"
                 type="date"
-                {...register('returnDate')}
+                {...register("returnDate")}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -146,8 +177,6 @@ const FlightsPage = () => {
               label="Round Trip"
             />
 
-
-
             <FormControl fullWidth>
               <InputLabel id="transfers-label">Transfers</InputLabel>
               <Controller
@@ -156,13 +185,21 @@ const FlightsPage = () => {
                 defaultValue={0}
                 render={({ field }) => (
                   <>
-                    <Select sx={{ width: '100%', mb: 2, mt: 2 }} labelId="transfers-label" id="transfers" {...field}>
+                    <Select
+                      sx={{ width: "100%", mb: 2, mt: 2 }}
+                      labelId="transfers-label"
+                      id="transfers"
+                      {...field}
+                    >
                       <MenuItem value={0}>0 Transfers</MenuItem>
                       <MenuItem value={1}>1 Transfer</MenuItem>
                       <MenuItem value={2}>2 Transfers</MenuItem>
                     </Select>
                     {errors.transfers && (
-                      <Typography color="error" sx={{ fontSize: 16, fontWeight: 'bold' }}>
+                      <Typography
+                        color="error"
+                        sx={{ fontSize: 16, fontWeight: "bold" }}
+                      >
                         {errors.transfers.message}
                       </Typography>
                     )}
@@ -170,13 +207,13 @@ const FlightsPage = () => {
                 )}
               />
             </FormControl>
-           <FormControl fullWidth>
+            <FormControl fullWidth>
               <TextField
                 id="passenger-count"
                 type="number"
                 label="Passenger Count"
-                sx={{ width: '100%', mb: 2 }}
-                {...register('passengerCount')}
+                sx={{ width: "100%", mb: 2 }}
+                {...register("passengerCount")}
                 inputProps={{ min: 0, max: 100 }}
               />
               {errors.passengerCount && (

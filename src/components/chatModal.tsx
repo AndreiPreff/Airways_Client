@@ -22,7 +22,7 @@ interface ChatModalProps {
 const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onRequestClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
-  const userId = "2e26089f-af46-41a4-8c40-6d790f57faf4";
+  const userId = "e1eb257a-ca35-493a-ad8d-255f4504d718";
   const socket = io("http://localhost:5001", {
     transports: ["websocket"],
     query: {
@@ -55,7 +55,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onRequestClose }) => {
     try {
       const response = await fetch(`http://localhost:5001/chat/${userId}`);
       const history = await response.json();
-      setMessages(history.reverse());
+      setMessages(history);
     } catch (error) {
       console.error("Failed to fetch message history:", error);
     }

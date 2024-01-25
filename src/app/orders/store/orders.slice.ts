@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Ticket } from 'app/flights/types/ticket-dto.type';
-import { cancelOrder, fetchUserOrders, fetchOrderTickets, fetchBookedOrders, markOrderAsPaid } from './orders.actions';
+import { fetchHistory } from 'app/flights/store/flights.actions';
+import { cancelOrder, fetchBookedOrders, fetchOrderTickets, fetchUserOrders, getUserProfile, markOrderAsPaid } from './orders.actions';
 
 
 interface OrdersState {
@@ -8,6 +8,8 @@ interface OrdersState {
   userOrders: any[] | null;
   pending: boolean;
   error: string | null;
+  messages: any,
+  user: any,
 }
 
 const initialState: OrdersState = {
@@ -15,6 +17,8 @@ const initialState: OrdersState = {
   userOrders: null,
   pending: false,
   error: null,
+  messages: null,
+  user: null,
 };
 
 export const ordersSlice = createSlice({
@@ -80,7 +84,34 @@ export const ordersSlice = createSlice({
       .addCase(markOrderAsPaid.rejected, (state, action: any & { payload: any }) => {
         state.pending = false;
         state.error = action.payload.error;
-      });
+      })
+      .addCase(fetchHistory.pending, (state) => {
+        state.pending = true;
+        state.error = null;
+      })
+      .addCase(fetchHistory.fulfilled, (state, { payload }) => {
+        state.pending = false;
+        state.messages = payload;
+      })
+      .addCase(fetchHistory.rejected, (state, action: any & { payload: any }) => {
+        state.pending = false;
+        state.error = action.payload.error;
+      })
+      .addCase(getUserProfile.pending, (state) => {
+        state.pending = true; 
+        state.error = null;
+      })
+      .addCase(getUserProfile.fulfilled, (state, { payload }) => {
+        state.pending = false; 
+        state.user = payload;
+      })
+      .addCase(
+        getUserProfile.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending = false; 
+          state.error = action.payload.error;
+        }
+      );
   },
 });
 

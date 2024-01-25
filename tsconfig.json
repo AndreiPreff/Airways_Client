@@ -23,5 +23,5 @@
   },
   "include": [
     "src"
-  ]
+, "../Airways_Admin/src/Airways_Common"  ]
 }
