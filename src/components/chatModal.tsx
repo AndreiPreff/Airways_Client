@@ -7,7 +7,9 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import io from "socket.io-client";
+import { userProfileSelector } from "../app/flights/store/flights.selectors";
 
 interface Message {
   senderId: string;
@@ -22,7 +24,8 @@ interface ChatModalProps {
 const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onRequestClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
-  const userId = "e1eb257a-ca35-493a-ad8d-255f4504d718";
+  const user = useSelector(userProfileSelector);
+  const userId = user.id;
   const socket = io("http://localhost:5001", {
     transports: ["websocket"],
     query: {
