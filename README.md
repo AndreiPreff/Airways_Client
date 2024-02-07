@@ -1,46 +1,20 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Airways_Client
+# This is an educational project that is an airline ticket booking system.
+It consists of 4 repositories: Airways_Server, Airways_Client, Airways_Admin, Airways_Common
+# This is a Client for demo airtickets booking system.
+# To run the project you need to do the following:
+  #clone 4 repos:
+    # git clone https://github.com/AndreiPreff/Airways_Server.git
+    # git clone https://github.com/AndreiPreff/Airways_Admin.git
+    # git clone https://github.com/AndreiPreff/Airways_Client.git
+    # git clone https://github.com/AndreiPreff/Airways_Common.git
+  # run the command *npm install* in each repo
+  # in repo Airways_Client run the command *git submodule update  --remote --merge*
+  # in repo Airways_Admin run the command *git submodule update  --remote --merge*
+  # in repo Airways_Server you need to run the commands *npx prisma generate* and *npx prisma migrate dev* and *npm run seed*
+  #in repo Airways_Server you need to run the commands:
+    # *docker-compose up* to run the containers with PostgreSQL, Redis and PGAdmin, 
+    # *npm run start* to run the backend
+    # *npm run start-chat* to run the chat
+  # in repo Airways_Client you need to run the command *npm start* to run the frontend.
+  # in repo Airways_Admin you need to run the command *npm start* to run the admin panel.
